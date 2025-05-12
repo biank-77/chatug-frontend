@@ -1,13 +1,12 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
-import { useAuth } from '../../context/AuthContext'; // Ajusta la ruta
+import { useAuth } from '../../context/AuthContext';
 
 const HomeScreen = () => {
-    const { signOut, userToken } = useAuth(); // Agrega userToken si quieres mostrarlo
+    const { signOut, userToken } = useAuth();
 
     const handleSignOut = async () => {
         await signOut();
-        // El RootLayoutNav en app/_layout.tsx se encargará de redirigir a /login
     };
 
     return (

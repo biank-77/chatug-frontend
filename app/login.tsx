@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
-import { useRouter } from 'expo-router';
-import { useAuth } from '../context/AuthContext'; // Ajusta la ruta si 'context' está en otro nivel
+import {View, TextInput, StyleSheet, Alert, Image, TouchableOpacity, Text} from 'react-native';
+import {Link, useRouter} from 'expo-router';
+import { useAuth } from '../context/AuthContext';
+import GlobalStyles from '../styles/global';
 
 const LoginScreen = () => {
     const [username, setUsername] = useState('');
@@ -11,43 +12,52 @@ const LoginScreen = () => {
 
     const handleLogin = async () => {
         if (username && password) {
-            // Simula la obtención de un token
             const fakeToken = `fake-jwt-token-for-${username}`;
             await signIn(fakeToken);
-            // Después del login, redirige a la ruta principal de tus pestañas
-            // Podría ser '/', '/(tabs)/', o la ruta de tu tab inicial como '/explore'
-            router.replace('/'); // Expo Router debería llevarte al (tabs) index si es la ruta raíz
+            router.replace('/');
         } else {
             Alert.alert('Error', 'Por favor, ingresa usuario y contraseña.');
         }
     };
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Iniciar Sesión</Text>
+        <View style={GlobalStyles.screenContainer}>
+
+            <Image source={require('@/assets/images/ug-logo-v3.png')} style={styles.logo} />
             <TextInput
-                style={styles.input}
+                style={GlobalStyles.input}
                 placeholder="Usuario"
                 value={username}
                 onChangeText={setUsername}
                 autoCapitalize="none"
             />
             <TextInput
-                style={styles.input}
+                style={GlobalStyles.input}
                 placeholder="Contraseña"
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry
             />
-            <Button title="Ingresar" onPress={handleLogin} />
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+                <Text style={GlobalStyles.primaryButtonText}> Ingresar </Text>
+            </TouchableOpacity>
+
+            <hr style={GlobalStyles.divider}/>
+            <Text style={styles.singUp}>¿No tienes una cuenta? {' '}
+                <Link href="/sign-up" style={GlobalStyles.hyperLink} >
+                    ¡Regístrate!
+                </Link>
+            </Text>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 },
+    logo: {width: "50%", height: undefined, alignSelf: 'center', aspectRatio: 1, resizeMode: 'contain' },
     title: { fontSize: 24, marginBottom: 20 },
-    input: { width: '100%', height: 40, borderColor: 'gray', borderWidth: 1, marginBottom: 12, paddingHorizontal: 10, borderRadius: 5 },
+    button: {...GlobalStyles.primaryButton, marginTop:28},
+    singUp: {color: "gray"},
 });
+
 
 export default LoginScreen;
