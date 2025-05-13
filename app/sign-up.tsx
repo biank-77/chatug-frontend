@@ -1,14 +1,25 @@
-import {View, Text, Image, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import {View, Text, Image, StyleSheet, TextInput, TouchableOpacity, Alert} from 'react-native';
 import GlobalStyles from "@/styles/global";
 import React, {useState} from "react";
-import {Link} from "expo-router";
+import {Link, useRouter} from "expo-router";
+import {signUp} from "@/services/authService";
+
 
 export default function RegistroScreen() {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [birthDate, setBirthDate] = useState('')
     const [password, setPassword] = useState('')
+    const router = useRouter();
 
+    const handleSignUp = async () => {
+        if(name && email && birthDate && password){
+            const success = await signUp({name, email, birthDate, password});
+            if(!success) return
+            Alert.alert('Success', 'Usuario creado con exito');
+            router.navigate("/login");
+        }
+    }
 
     return (
         <View style={[GlobalStyles.backgroundColor]}>
@@ -50,7 +61,7 @@ export default function RegistroScreen() {
                     secureTextEntry
                 />
 
-                <TouchableOpacity style={styles.button} onPress={() => console.log(name, email)}>
+                <TouchableOpacity style={styles.button} onPress={handleSignUp}>
                     <Text style={GlobalStyles.primaryButtonText}> Registrarse </Text>
                 </TouchableOpacity>
 

@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
 import {View, TextInput, StyleSheet, Alert, Image, TouchableOpacity, Text} from 'react-native';
-import {Link, useRouter} from 'expo-router';
+import {Link} from 'expo-router';
 import { useAuth } from '../context/AuthContext';
 import GlobalStyles from '../styles/global';
+import { useNavigation } from '@react-navigation/native';
+import { CommonActions } from '@react-navigation/native';
 
 const LoginScreen = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const { signIn } = useAuth();
-    const router = useRouter();
+    const { signIn, error } = useAuth();
+    const navigation = useNavigation();
 
     const handleLogin = async () => {
         if (username && password) {
-            const fakeToken = `fake-jwt-token-for-${username}`;
-            await signIn(fakeToken);
-            router.replace('/');
+            const success = await signIn(username, password);
+            if(!success) return
+            navigation.dispatch(
+                CommonActions.reset({index: 0,routes: [{ name: 'Home' }],})
+            );
         } else {
             Alert.alert('Error', 'Por favor, ingresa usuario y contraseña.');
         }
@@ -41,6 +45,8 @@ const LoginScreen = () => {
             <TouchableOpacity style={styles.button} onPress={handleLogin}>
                 <Text style={GlobalStyles.primaryButtonText}> Ingresar </Text>
             </TouchableOpacity>
+
+            {error && <Text> {error} </Text>}
 
             <hr style={GlobalStyles.divider}/>
             <Text style={styles.singUp}>¿No tienes una cuenta? {' '}

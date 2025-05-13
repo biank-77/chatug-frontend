@@ -3,7 +3,7 @@ import { View, Text, Button, StyleSheet } from 'react-native';
 import { useAuth } from '../../context/AuthContext';
 
 const HomeScreen = () => {
-    const { signOut, userToken } = useAuth();
+    const { signOut, userToken, userInfo } = useAuth();
 
     const handleSignOut = async () => {
         await signOut();
@@ -11,9 +11,8 @@ const HomeScreen = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>¡Bienvenido!</Text>
+            {userToken && userInfo && <Text style={styles.title}>¡Bienvenido {userInfo.name}!</Text>}
             <Text>Estás en el Home (dentro de tabs).</Text>
-            {userToken && <Text style={{fontSize: 10, color: 'grey', marginVertical: 10}}>Token: {userToken.substring(0,15)}...</Text>}
             <Button title="Cerrar Sesión" onPress={handleSignOut} />
         </View>
     );

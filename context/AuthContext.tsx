@@ -1,10 +1,15 @@
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {login} from "@/services/authService";
+import  { jwtDecode } from 'jwt-decode';
+import {User} from "@/types/User";
 
 interface AuthContextType {
     userToken: string | null;
+    error: string | null;
+    userInfo: User | null;
     isLoading: boolean;
-    signIn: (token: string) => Promise<void>;
+    signIn: (username: string, password:string) => Promise<true|false>;
     signOut: () => Promise<void>;
 }
 
@@ -16,6 +21,8 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [userToken, setUserToken] = useState<string | null>(null);
+    const [userInfo, setUserInfo] = useState<User|null>(null)
+    const [error, setError] = useState<string|null>(null)
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
@@ -23,8 +30,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             let token: string | null = null;
             try {
                 token = await AsyncStorage.getItem('userToken');
+                const decoded = jwtDecode(token||"") as User;
+                setUserInfo(decoded);
             } catch (e) {
-                console.error('Restoring token failed', e);
+                console.log('Restoring token failed');
             }
             setUserToken(token);
             setIsLoading(false);
@@ -33,16 +42,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         bootstrapAsync();
     }, []);
 
-    const signIn = async (token: string) => {
+    const signIn = async (username: string, password:string) => {
         setIsLoading(true);
+        let success= false
         try {
+            const token = await login(username, password)
             await AsyncStorage.setItem('userToken', token);
+            const decoded = jwtDecode(token) as User;
             setUserToken(token);
+            setUserInfo(decoded);
+            success= true
         } catch (e) {
-            console.error('Signing in failed', e);
-            // Aquí podrías manejar el error, quizás mostrar un mensaje al usuario
+            setError("Usuario o contraseña incorrectos");
         }
         setIsLoading(false);
+        return success
     };
 
     const signOut = async () => {
@@ -57,7 +71,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ userToken, isLoading, signIn, signOut }}>
+        <AuthContext.Provider value={{ userToken, userInfo, error, isLoading, signIn, signOut }}>
             {children}
         </AuthContext.Provider>
     );
