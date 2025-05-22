@@ -1,25 +1,32 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
-import { useAuth } from '../../context/AuthContext';
+import { StyleSheet, Animated} from 'react-native';
+import GlobalStyles from "@/styles/global";
+import NotificationCard from "@/components/home/notificationCard";
+import ScrollView = Animated.ScrollView;
+import NewNotificationButton from "@/components/home/newNotificationButton";
+import {useNotifications} from "@/hooks/useNotifications";
+import Loading from "@/components/ui/Loading";
 
 const HomeScreen = () => {
-    const { signOut, userToken, userInfo } = useAuth();
+    // const { signOut, userToken, userInfo } = useAuth();
+    const {notifications, loading, addNotification} = useNotifications()
 
-    const handleSignOut = async () => {
-        await signOut();
-    };
+    // const handleSignOut = async () => {
+    //     await signOut();
+    // };
 
     return (
-        <View style={styles.container}>
-            {userToken && userInfo && <Text style={styles.title}>¡Bienvenido {userInfo.name}!</Text>}
-            <Text>Estás en el Home (dentro de tabs).</Text>
-            <Button title="Cerrar Sesión" onPress={handleSignOut} />
-        </View>
+        <ScrollView  contentContainerStyle={[GlobalStyles.screenContainer, styles.container]}>
+            <NewNotificationButton addNotification={addNotification}/>
+            {loading ?
+                <Loading/> :
+                notifications.map((not, it) => <NotificationCard key={it} item={not}/>)}
+        </ScrollView >
     );
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 },
+    container: {justifyContent: "flex-start", paddingTop:10, paddingHorizontal:5, gap:10},
     title: { fontSize: 24, marginBottom: 20 },
 });
 

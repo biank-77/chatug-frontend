@@ -34,6 +34,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 setUserInfo(decoded);
             } catch (e) {
                 console.log('Restoring token failed');
+                setIsLoading(false);
             }
             setUserToken(token);
             setIsLoading(false);

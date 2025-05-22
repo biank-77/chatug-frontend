@@ -46,7 +46,7 @@ const LoginScreen = () => {
                 <Text style={GlobalStyles.primaryButtonText}> Ingresar </Text>
             </TouchableOpacity>
 
-            {error && <Text> {error} </Text>}
+            {error && <Text style={GlobalStyles.errorMessage}> {error} </Text>}
 
             <hr style={GlobalStyles.divider}/>
             <Text style={styles.singUp}>¿No tienes una cuenta? {' '}
