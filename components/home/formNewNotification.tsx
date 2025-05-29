@@ -22,7 +22,7 @@ const FormNewNotification = ({setModalVisible, addNotification}: FormNewNotifica
     const saveAndSendNotification = async() => {
         setIsLoading(true)
         const notification = await addNotification({
-            image: `data:${image?.mimeType||""};base64,${image?.base64||""}`,
+            image: image?`data:${image?.mimeType||""};base64,${image?.base64||""}`: "",
             imageName: image?.fileName || "",
             message,
             userId: userInfo?.id,

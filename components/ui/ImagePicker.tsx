@@ -28,7 +28,6 @@ export default function ImagePickerComponent({image, setImage}: ImagePickerCompo
 
         if (!result.canceled) {
             setImage(result.assets[0]);
-            console.log(result.assets);
         }
     };
 

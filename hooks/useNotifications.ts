@@ -25,7 +25,6 @@ export const useNotifications = () => {
 
     const addNotification = async (newNotification: Notification) => {
         try {
-            console.log(newNotification.image)
             const savedNotification = await createNotification(newNotification);
 
             setNotifications([savedNotification, ...notifications])
