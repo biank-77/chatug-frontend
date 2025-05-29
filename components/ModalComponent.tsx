@@ -41,11 +41,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    touchableBox: {
-        backgroundColor: '#4CAF50',
-        padding: 20,
-        borderRadius: 10,
-    },
     boxText: {
         color: '#fff',
         fontSize: 16,
@@ -60,6 +55,10 @@ const styles = StyleSheet.create({
         backgroundColor:"#ecf7ff",
         borderRadius: 10,
         minWidth: 250,
+        maxWidth:"90%",
+        maxHeight:"75%",
+        paddingVertical:10,
+        paddingHorizontal:20
     },
     modalText: {
         fontSize: 18,
@@ -77,9 +76,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     modalContent: {
-        padding: 15,
+        padding: 30,
         alignItems: 'center',
-        minWidth: 250,
+        minWidth: 200,
     }
 });
 

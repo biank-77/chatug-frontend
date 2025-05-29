@@ -1,6 +1,8 @@
 {
   "expo": {
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "name": "chatug-frontend",
     "slug": "chatug",
     "version": "1.0.0",

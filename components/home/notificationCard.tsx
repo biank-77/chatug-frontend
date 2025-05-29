@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 import GlobalStyles from "@/styles/global";
 import {Notification} from "@/types/notification";
+import {formatDate} from "@/utils/formatDate";
 
 interface NotificationCardProps{
     item: Notification
@@ -13,10 +14,10 @@ console.log(item)
         <View style={GlobalStyles.card}>
 
             <View style={GlobalStyles.cardHeader}>
-                <Image source={require('@/assets/images/teacher1.jpg')} style={GlobalStyles.cardPicture} />
+                <Image source={require('@/assets/images/profesor-icon.png')} style={GlobalStyles.cardPicture} />
                 <View style={styles.publisherInfo}>
                     <Text>{item.user?.name}</Text>
-                    <Text style={{"fontSize":11}}>{item.createdDate}</Text>
+                    <Text style={{"fontSize":11}}>{formatDate(item.createdDate)}</Text>
                 </View>
             </View>
 

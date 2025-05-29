@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {login} from "@/services/authService";
+import {login, users} from "@/services/authService";
 import  { jwtDecode } from 'jwt-decode';
 import {User} from "@/types/User";
 
@@ -30,14 +30,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             let token: string | null = null;
             try {
                 token = await AsyncStorage.getItem('userToken');
-                const decoded = jwtDecode(token||"") as User;
-                setUserInfo(decoded);
+                if (token) {
+                    const decoded = jwtDecode(token||"") as User;
+                    setUserInfo(decoded);
+                    setUserToken(token);
+                }
             } catch (e) {
                 console.log('Restoring token failed');
+            }
+            finally {
                 setIsLoading(false);
             }
-            setUserToken(token);
-            setIsLoading(false);
         };
 
         bootstrapAsync();
@@ -54,7 +57,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setUserInfo(decoded);
             success= true
         } catch (e) {
-            setError("Usuario o contraseña incorrectos");
+            setError("Usuario o contraseña incorrectos" + JSON.stringify(e));
         }
         setIsLoading(false);
         return success

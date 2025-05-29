@@ -8,42 +8,39 @@ function RootLayoutNav() {
   const segments = useSegments();
   const router = useRouter();
 
-  // Prevent auto-hide on mount
-  useEffect(() => {
-    const prepare = async () => {
-      try {
-        await SplashScreen.preventAutoHideAsync();
-      } catch (e) {
-        console.warn('SplashScreen error:', e);
-      }
-    };
-    prepare();
-  }, []);
+  // useEffect(() => {
+  //   SplashScreen.preventAutoHideAsync();
+  // }, []);
 
-  // Hide splash when loading is done
+  // useEffect(() => {
+  //   if (!isLoading) {
+  //     SplashScreen.hideAsync();
+  //   }
+  // }, [isLoading]);
+
   useEffect(() => {
-    if (!isLoading) {
-      SplashScreen.hideAsync();
+    if (isLoading) {
+      return;
     }
-  }, [isLoading]);
 
-  // Handle navigation
-  useEffect(() => {
-    if (isLoading) return;
+    const isInAuthFlow = segments?.[0] === 'login' || segments?.[0] === 'sign-up';
 
-    const isInAuthFlow = segments[0] === 'login' || segments[0] === 'sign-up';
-
+    // Si no hay token Y NO estamos en el flujo de autenticación, vamos a login
     if (!userToken && !isInAuthFlow) {
       router.replace('/login');
-    } else if (userToken && isInAuthFlow) {
+    }
+    // Si hay token Y estamos en el flujo de autenticación, vamos a la pantalla principal
+    else if (userToken && isInAuthFlow) {
       router.replace('/');
     }
+
   }, [userToken, isLoading, segments, router]);
 
   if (isLoading) {
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <ActivityIndicator size="large" color="#0000ff" />
+
         </View>
     );
   }

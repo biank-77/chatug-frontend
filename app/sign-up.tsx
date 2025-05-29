@@ -3,6 +3,7 @@ import GlobalStyles from "@/styles/global";
 import React, {useState} from "react";
 import {Link, useRouter} from "expo-router";
 import {signUp} from "@/services/authService";
+import HorizontalLine from "@/components/ui/HorizontalLine";
 
 
 export default function RegistroScreen() {
@@ -42,7 +43,6 @@ export default function RegistroScreen() {
                     placeholder="Fecha de nacimiento"
                     value={birthDate}
                     onChangeText={setBirthDate}
-                    secureTextEntry
                 />
 
                 <TextInput
@@ -50,7 +50,6 @@ export default function RegistroScreen() {
                     placeholder="Correo institucional"
                     value={email}
                     onChangeText={setEmail}
-                    secureTextEntry
                 />
 
                 <TextInput
@@ -65,7 +64,7 @@ export default function RegistroScreen() {
                     <Text style={GlobalStyles.primaryButtonText}> Registrarse </Text>
                 </TouchableOpacity>
 
-                <hr style={GlobalStyles.divider}/>
+                <HorizontalLine />
                 <Text >¿Ya tienes una cuenta? {' '}
                     <Link href="/login" style={GlobalStyles.hyperLink}>
                         ¡Inicia sesión!

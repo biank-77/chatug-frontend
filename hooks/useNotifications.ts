@@ -11,14 +11,9 @@ export const useNotifications = () => {
         fetchNotifications();
     }, []);
 
-    useEffect(() => {
-        console.log("Notifications actualizadas", notifications);
-    }, [notifications]);
-
     const fetchNotifications = async () => {
         try {
             const data = await getNotifications();
-            console.log(data, "aqui???");
             setNotifications(data);
         } catch (err: any) {
             console.log("Error", err)
@@ -30,6 +25,7 @@ export const useNotifications = () => {
 
     const addNotification = async (newNotification: Notification) => {
         try {
+            console.log(newNotification.image)
             const savedNotification = await createNotification(newNotification);
 
             setNotifications([savedNotification, ...notifications])

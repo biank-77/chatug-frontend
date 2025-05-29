@@ -1,11 +1,15 @@
 import React from "react";
 import { ActivityIndicator, View, Text, StyleSheet } from "react-native";
 
-const Loading = () => {
+interface LoadingProps{
+    includeMessage?:boolean;
+}
+
+const Loading = ({includeMessage}:LoadingProps) => {
     return (
         <View style={styles.container}>
             <ActivityIndicator size="large" color="#4F46E5" />
-            <Text style={styles.text}>Cargando...</Text>
+            {includeMessage && <Text style={styles.text}>Cargando...</Text>}
         </View>
     );
 };

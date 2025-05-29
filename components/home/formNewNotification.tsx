@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {View, TouchableOpacity, StyleSheet, Image, Text, TextInput} from 'react-native';
 import GlobalStyles from "@/styles/global";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import {useAuth} from "@/context/AuthContext";
 import {Notification} from "@/types/notification";
 import ImagePickerComponent from "@/components/ui/ImagePicker";
 import {ImagePickerAsset} from "expo-image-picker";
+import Loading from "@/components/ui/Loading";
 
 interface FormNewNotificationProps{
     setModalVisible: (visible: boolean) => void;
@@ -16,11 +16,13 @@ const FormNewNotification = ({setModalVisible, addNotification}: FormNewNotifica
     const [message, setMessage] = useState("")
     const [image, setImage] = useState<ImagePickerAsset|null>(null)
     const [error, setError] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
     const { userInfo } = useAuth();
 
     const saveAndSendNotification = async() => {
+        setIsLoading(true)
         const notification = await addNotification({
-            image: image?.uri|| "",
+            image: `data:${image?.mimeType||""};base64,${image?.base64||""}`,
             imageName: image?.fileName || "",
             message,
             userId: userInfo?.id,
@@ -28,23 +30,24 @@ const FormNewNotification = ({setModalVisible, addNotification}: FormNewNotifica
         })
         if(notification){
             setModalVisible(false)
+
         }else{
             setError("Ha ocurrido un error, vuelve a intentarlo!")
         }
-
+        setIsLoading(false)
     }
 
     return (
         <View style={styles.container}>
             <View style={styles.inputTextWithImage}>
                 <View style={styles.header}>
-                    <Image source={require('@/assets/images/teacher1.jpg')} style={[GlobalStyles.cardPicture, {marginTop:4}]} />
+                    <Image source={require('@/assets/images/profesor-icon.png')} style={[GlobalStyles.cardPicture, {marginTop:4}]} />
                     {userInfo && <Text style={styles.profileName}>{userInfo.name}</Text>}
                 </View>
                 <TextInput
                     style={styles.input}
                     multiline
-                    numberOfLines={8}
+                    numberOfLines={6}
                     placeholder="Escribe tu anuncio aqui..."
                     placeholderTextColor="#777"
                     textAlignVertical="top"
@@ -57,9 +60,11 @@ const FormNewNotification = ({setModalVisible, addNotification}: FormNewNotifica
             <View style={styles.footer}>
                 <ImagePickerComponent image={image} setImage={setImage}/>
 
-                <TouchableOpacity style={[GlobalStyles.primaryButton, styles.publishButton]} onPress={saveAndSendNotification}>
+                {isLoading? <Loading includeMessage={false}/> :
+                <TouchableOpacity style={[GlobalStyles.primaryButton, styles.publishButton]} onPress={saveAndSendNotification} >
                     <Text style={GlobalStyles.primaryButtonText}>Publicar</Text>
                 </TouchableOpacity>
+                }
             </View>
 
             {error && <Text style={GlobalStyles.errorMessage}> {error} </Text>}
@@ -68,7 +73,14 @@ const FormNewNotification = ({setModalVisible, addNotification}: FormNewNotifica
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20, paddingTop:4, marginTop:-35},
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingBottom: 20,
+        paddingTop:4,
+        marginTop:"-25%",
+    },
     profileName: {
         color: "#084973",
         fontWeight:"bold",

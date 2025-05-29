@@ -71,7 +71,7 @@ const GlobalStyles = StyleSheet.create({
         borderBottomColor:"#0c74b7",
         paddingBottom:6
     },
-    cardPicture: {borderRadius:"100%", width:40, height:40},
+    cardPicture: {borderRadius:100, width:40, height:40},
 });
 
 export default GlobalStyles;

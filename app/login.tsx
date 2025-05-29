@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import {View, TextInput, StyleSheet, Alert, Image, TouchableOpacity, Text} from 'react-native';
+import {View, TextInput, StyleSheet, Alert, Image, TouchableOpacity, Text, Animated} from 'react-native';
 import {Link} from 'expo-router';
 import { useAuth } from '../context/AuthContext';
 import GlobalStyles from '../styles/global';
 import { useNavigation } from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/native';
+import HorizontalLine from "@/components/ui/HorizontalLine";
 
 const LoginScreen = () => {
     const [username, setUsername] = useState('');
@@ -17,7 +18,7 @@ const LoginScreen = () => {
             const success = await signIn(username, password);
             if(!success) return
             navigation.dispatch(
-                CommonActions.reset({index: 0,routes: [{ name: 'Home' }],})
+                CommonActions.reset({index: 0,routes: [{ name: 'index' }],})
             );
         } else {
             Alert.alert('Error', 'Por favor, ingresa usuario y contraseña.');
@@ -48,7 +49,7 @@ const LoginScreen = () => {
 
             {error && <Text style={GlobalStyles.errorMessage}> {error} </Text>}
 
-            <hr style={GlobalStyles.divider}/>
+            <HorizontalLine />
             <Text style={styles.singUp}>¿No tienes una cuenta? {' '}
                 <Link href="/sign-up" style={GlobalStyles.hyperLink} >
                     ¡Regístrate!
