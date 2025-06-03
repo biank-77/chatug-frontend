@@ -2,12 +2,12 @@ import React from 'react';
 import NotificationComponent from "@/components/NotificationComponent";
 import {NotificationType} from "@/types/notification";
 
-const HomeScreen = () => {
+const TutoriaScreen = () => {
 
     return (
-       <NotificationComponent type={NotificationType.General}/>
+        <NotificationComponent type={NotificationType.Tutoria}/>
     );
 };
 
 
-export default HomeScreen;
+export default TutoriaScreen;

@@ -8,15 +8,6 @@ function RootLayoutNav() {
   const segments = useSegments();
   const router = useRouter();
 
-  // useEffect(() => {
-  //   SplashScreen.preventAutoHideAsync();
-  // }, []);
-
-  // useEffect(() => {
-  //   if (!isLoading) {
-  //     SplashScreen.hideAsync();
-  //   }
-  // }, [isLoading]);
 
   useEffect(() => {
     if (isLoading) {
@@ -25,11 +16,10 @@ function RootLayoutNav() {
 
     const isInAuthFlow = segments?.[0] === 'login' || segments?.[0] === 'sign-up';
 
-    // Si no hay token Y NO estamos en el flujo de autenticación, vamos a login
     if (!userToken && !isInAuthFlow) {
       router.replace('/login');
     }
-    // Si hay token Y estamos en el flujo de autenticación, vamos a la pantalla principal
+
     else if (userToken && isInAuthFlow) {
       router.replace('/');
     }

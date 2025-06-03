@@ -16,9 +16,33 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="index"
                 options={{
-                    title: 'Home',
+                    title: 'Noticias',
                     headerTitleStyle: GlobalStyles.headerTitle,
-                    tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+                    tabBarIcon: ({ color }) => <TabBarIcon name="newspaper-o" color={color} />,
+                }}
+            />
+            <Tabs.Screen
+                name="practica"
+                options={{
+                    title: 'Práctica',
+                    headerTitleStyle: GlobalStyles.headerTitle,
+                    tabBarIcon: ({ color }) => <TabBarIcon name="paperclip" color={color} />,
+                }}
+            />
+            <Tabs.Screen
+                name="vinculacion"
+                options={{
+                    title: 'Vinculación',
+                    headerTitleStyle: GlobalStyles.headerTitle,
+                    tabBarIcon: ({ color }) => <TabBarIcon name="random" color={color} />,
+                }}
+            />
+            <Tabs.Screen
+                name="tutoria"
+                options={{
+                    title: 'Tutorias',
+                    headerTitleStyle: GlobalStyles.headerTitle,
+                    tabBarIcon: ({ color }) => <TabBarIcon name="street-view" color={color} />,
                 }}
             />
             <Tabs.Screen

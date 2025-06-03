@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, TouchableOpacity, StyleSheet, Image, Text, TextInput} from 'react-native';
 import GlobalStyles from "@/styles/global";
 import {useAuth} from "@/context/AuthContext";
-import {Notification} from "@/types/notification";
+import {Notification, NotificationType} from "@/types/notification";
 import ImagePickerComponent from "@/components/ui/ImagePicker";
 import {ImagePickerAsset} from "expo-image-picker";
 import Loading from "@/components/ui/Loading";
@@ -10,9 +10,10 @@ import Loading from "@/components/ui/Loading";
 interface FormNewNotificationProps{
     setModalVisible: (visible: boolean) => void;
     addNotification: (notification: Notification) => Promise<Notification>;
+    type: NotificationType
 }
 
-const FormNewNotification = ({setModalVisible, addNotification}: FormNewNotificationProps) => {
+const FormNewNotification = ({setModalVisible, addNotification, type}: FormNewNotificationProps) => {
     const [message, setMessage] = useState("")
     const [image, setImage] = useState<ImagePickerAsset|null>(null)
     const [error, setError] = useState("")
@@ -26,7 +27,8 @@ const FormNewNotification = ({setModalVisible, addNotification}: FormNewNotifica
             imageName: image?.fileName || "",
             message,
             userId: userInfo?.id,
-            createdDate: new Date().toISOString()
+            createdDate: new Date().toISOString(),
+            type
         })
         if(notification){
             setModalVisible(false)

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { getNotifications, createNotification } from "@/services/notificationServices";
-import {Notification} from "@/types/notification";
+import {Notification, NotificationType} from "@/types/notification";
 
-export const useNotifications = () => {
+
+export const useNotifications = ({type}: {type: NotificationType }) => {
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -13,7 +14,7 @@ export const useNotifications = () => {
 
     const fetchNotifications = async () => {
         try {
-            const data = await getNotifications();
+            const data = await getNotifications(type);
             setNotifications(data);
         } catch (err: any) {
             console.log("Error", err)

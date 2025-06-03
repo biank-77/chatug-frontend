@@ -9,7 +9,7 @@ interface NotificationCardProps{
 }
 
 const NotificationCard = ({item}:NotificationCardProps) => {
-console.log(item)
+
     return (
         <View style={GlobalStyles.card}>
 
