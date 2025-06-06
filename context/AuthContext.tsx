@@ -57,7 +57,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setUserInfo(decoded);
             success= true
         } catch (e) {
-            setError("Usuario o contraseña incorrectos" + JSON.stringify(e));
+            setError("Usuario o contraseña incorrectos");
         }
         setIsLoading(false);
         return success

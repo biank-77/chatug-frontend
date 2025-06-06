@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "273294043486",
+    "project_id": "chatug-7d85a",
+    "storage_bucket": "chatug-7d85a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:273294043486:android:9ac7d36f7a0c70e4f407cf",
+        "android_client_info": {
+          "package_name": "com.biank77.chatug"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsYQuYCJsdDwmYh_7npe3amMR1Y_Trqg4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
